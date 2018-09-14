@@ -126,7 +126,7 @@ if video == 'v':
                         continue
                 box = detections[0, 0, i, 3:7] * np.array([w, h, w, h])
                 (l, t, r, b) = box.astype("int") # l t r b
-            
+
                 original_vertical_length = b-t
                 t = int(t + (original_vertical_length)*0.15) - border
                 b = int(b - (original_vertical_length)*0.05) - border
@@ -134,6 +134,12 @@ if video == 'v':
                 margin = ((b-t) - (r-l))//2
                 l = l - margin if (b-t-r+l)%2 == 0 else l - margin - 1
                 r = r + margin
+                if(l >w) l=w
+                if(t <0) t=0
+                if(r <0) r=0
+                if(b >h) b=h
+
+                
                 refined_box = [t,r,b,l]
                 list_bboxes.append(refined_box)
                 list_confidence.append(confidence)

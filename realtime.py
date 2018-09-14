@@ -157,6 +157,11 @@ if video == 'r':
                 margin = ((b-t) - (r-l))//2
                 l = l - margin if (b-t-r+l)%2 == 0 else l - margin - 1
                 r = r + margin
+                if(l >w) : l=w
+                if(t <0) : t=0
+                if(r <0) : r=0
+                if(b >h) : b=h
+
                 refined_box = [t,r,b,l]
                 list_bboxes.append(refined_box)
                 list_confidence.append(confidence)
@@ -225,10 +230,16 @@ if video == 'r':
 
                         else :
                             face = img_bgr_blur[t:b, l:r]
-                            if(len(face) >0) :
+                            if(len(face) >0 ) :
                                 small = cv2.resize(face, None, fx=.05, fy=.05, interpolation=cv2.INTER_NEAREST)
                                 blurred_face = cv2.resize(small, (face.shape[:2]), interpolation=cv2.INTER_NEAREST)
-                                img_bgr_blur[t:b, l:r] = blurred_face
+                                print(small.shape)
+                                print(face.shape)
+                                print(blurred_face.shape)
+                                if (face.shape == blurred_face.shape) :
+                                    img_bgr_blur[t:b, l:r] = blurred_face
+                                    
+                                
                            
         ### draw rectangle bbox
                 if args.with_draw == 'True':
