@@ -4,9 +4,9 @@
 
 - [김보균](https://github.com/k4771kim)
 - [오영택](https://github.com/ohyoungtack)
-- 이선미
-- 이명훈
-- 최진호
+- [이선미](https://github.com/SunmaiLee)
+- [이명훈](https://github.com/MH-Lee)
+- [최진호](https://github.com/dostrct)
 
 ### 1. 프로젝트 소개
 
