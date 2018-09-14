@@ -56,6 +56,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--with_draw', help='do draw?', default='True')
 args = parser.parse_args()
 
+mask = 'b'
 mode = 'k'
 video = 'r'
 if mode == 'k':
@@ -94,8 +95,9 @@ if video == 'r':
     tfconfig = tf.ConfigProto(allow_soft_placement=True)
     tfconfig.gpu_options.allow_growth = True
     with tf.Session(config=tfconfig) as sess:
-        model = cyclegan(sess, args2)
-        model.loadModel()
+        if mask =='g' :
+            model = cyclegan(sess, args2)
+            model.loadModel()
             
         vc = cv2.VideoCapture(0)
 
@@ -165,8 +167,9 @@ if video == 'r':
                 ww = r-l
                 hh = b-t
                 crop_img = img_rgb[t:t+hh, l:l+ww]
-                b,g,r = cv2.split(crop_img)
-                crop_img = cv2.merge([r,g,b])
+                if len(crop_img) > 0 :
+                    b,g,r = cv2.split(crop_img)
+                    crop_img = cv2.merge([r,g,b])
                 #print(os.path.join(path , file_name))
                 #cv2.imwrite(os.path.join(dir_name , file_name) ,crop_img)
                 #final_path = path + file_name
@@ -197,25 +200,36 @@ if video == 'r':
                 img_bgr_blur = img_bgr_ori.copy()
                 for name, bbox, conf in list_reconized_face:
                     t,r,b,l = bbox
+                    
                     if name == 'unknown':
-                        #face = img_bgr_blur[t:b, l:r]
-                        file_name = "0001.jpg"
-                        face = img_bgr_blur[t:b, l:r]
-                        crop_img2 = cv2.resize(face,(256,256))
-                       
-                        cv2.imwrite(os.path.join(dir_name , file_name) ,crop_img2)
-                        # hhh , www = crop_img[:2]
-                        height, width = face.shape[:2]
+                        
+                        if mask =='g':
+                            
+                            file_name = "0001.jpg"
+                            face = img_bgr_blur[t:b, l:r]
+                            crop_img2 = cv2.resize(face,(256,256))
+                        
+                            cv2.imwrite(os.path.join(dir_name , file_name) ,crop_img2)
+                            # hhh , www = crop_img[:2]
+                            height, width = face.shape[:2]
 
-                        # print(hhh,www)
+                            # print(hhh,www)
 
-                        os.system("mv -f " +dir_name +"/* ./data/face2zebra/testA")    
-                        model.extract()
-                        # gan_img  = cv2.imread(os.path.join(dir_name , file_name) , 1)
-                        gan_img  = cv2.imread(os.path.join('./test' , 'AtoB_' +file_name) , 1)
-                        gan_img2 = cv2.resize(gan_img,(height,width))
-                       
-                        img_bgr_blur[t:b, l:r] = gan_img2
+                            os.system("mv -f " +dir_name +"/* ./data/face2zebra/testA")    
+                            model.extract()
+                            # gan_img  = cv2.imread(os.path.join(dir_name , file_name) , 1)
+                            gan_img  = cv2.imread(os.path.join('./test' , 'AtoB_' +file_name) , 1)
+                            gan_img2 = cv2.resize(gan_img,(height,width))
+                        
+                            img_bgr_blur[t:b, l:r] = gan_img2
+
+                        else :
+                            face = img_bgr_blur[t:b, l:r]
+                            if(len(face) >0) :
+                                small = cv2.resize(face, None, fx=.05, fy=.05, interpolation=cv2.INTER_NEAREST)
+                                blurred_face = cv2.resize(small, (face.shape[:2]), interpolation=cv2.INTER_NEAREST)
+                                img_bgr_blur[t:b, l:r] = blurred_face
+                           
         ### draw rectangle bbox
                 if args.with_draw == 'True':
                     source_img = Image.fromarray(img_bgr_ori)
@@ -241,7 +255,7 @@ if video == 'r':
                 draw = ImageDraw.Draw(source_img)
                 show = np.asarray(source_img)
                 cv2.imshow('show', show)
-                #cv2.imshow('blur', img_bgr_blur)
+                cv2.imshow('blur', show)
                 key = cv2.waitKey(30)
                 if key == 27:
                     break
