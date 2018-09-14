@@ -86,7 +86,7 @@ data 폴더를 만들고 그 안에 편집할 영상을 집어넣는데
 python main2.py
 ```
 
-####4.구현하지 못한 부분
+#### 4.구현하지 못한 부분
 
 <p align="center"><img src = "./readme_img/img6.jpg" width="600px" height="200px"></img></br></p>
 
@@ -99,7 +99,8 @@ python main2.py
 - finding tiny face 를 face net 에 embed 한다면 작은 얼굴에 대한 처리도 강화할수
   있음
 
-####5. 참고자료 [Faster RCNN 논문](https://arxiv.org/abs/1506.01497)
+#### 5. 참고자료 [Faster RCNN 논문](https://arxiv.org/abs/1506.01497)
+
 [Faster RCNN Github](https://github.com/rbgirshick/py-faster-rcnn)
 [Faster RCNN Github2](https://github.com/tensorflow/models)
 [face net 논문](https://arxiv.org/abs/1503.03832)
