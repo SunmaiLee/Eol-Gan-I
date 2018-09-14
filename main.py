@@ -181,10 +181,10 @@ if video == 'v':
                         t,r,b,l = bbox
                         font_size = int((r-l)/img_bgr_ori.shape[1]*200)
 
-                        draw.rectangle(((l,t),(r,b)), outline=(0,255,128))
+                        # draw.rectangle(((l,t),(r,b)), outline=(0,255,128))
 
-                        draw.rectangle(((l,t-font_size-2),(r,t+2)), fill=(0,255,128))
-                        draw.text((l, t - font_size), name, font=ImageFont.truetype('./BMDOHYEON_TTF.TTF', font_size), fill=(0,0,0,0))
+                        # draw.rectangle(((l,t-font_size-2),(r,t+2)), fill=(0,255,128))
+                        # draw.text((l, t - font_size), name, font=ImageFont.truetype('./BMDOHYEON_TTF.TTF', font_size), fill=(0,0,0,0))
                     show = np.asarray(source_img)
                     if idx == 0:
                         writer = cv2.VideoWriter('video_3.avi', fourcc, args["fps"], (640,360), True)
